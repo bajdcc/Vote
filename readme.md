@@ -4,8 +4,6 @@ Complete **JUMP IN PAGE**.
 Using:
 
 - Laravel route
-
-
 - php-simple-html-dom-parser
 - XPath selector
 
@@ -24,3 +22,8 @@ Using:
 - Redis Cache
 - jQuery Ajax
 - MySQL, Database migration & ORM
+
+Screenshots:
+
+![Main View](https://raw.github.com/bajdcc/Vote/master/screenshots/main_view.png)
+
