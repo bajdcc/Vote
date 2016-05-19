@@ -27,3 +27,4 @@ Screenshots:
 
 ![Main View](https://raw.github.com/bajdcc/Vote/master/screenshots/main_view.png)
 
+![Demo](https://raw.github.com/bajdcc/Vote/master/screenshots/demo1.gif)

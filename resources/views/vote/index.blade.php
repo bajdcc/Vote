@@ -295,7 +295,7 @@
                 };
 
                 app.load_chart = function () {
-                    $.getJSON('{{ route('vote_query') }}', function (data) {
+                    $.getJSON('{{ route('service.vote.query') }}', function (data) {
                         var chart = window.chart;
                         chart.allLabels[0].text = data.count;
                         chart.animateData(data.data, {
@@ -394,7 +394,7 @@
             };
             hide_action();
             setTimeout(function () {
-                $.post('{{ route("vote_post") }}', {
+                $.post('{{ route("service.vote.post") }}', {
                     uid: uid,
                     choice: choice,
                     _token: token
@@ -481,7 +481,7 @@
                     "color": "#555"
                 }],
                 "dataLoader": {
-                    "url": "{{ route('vote_query_init') }}",
+                    "url": "{{ route('service.vote.query_init') }}",
                     "showCurtain": false,
                     "complete": function () {
                         setTimeout(function () {

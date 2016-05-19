@@ -9,22 +9,15 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">Jump</div>
                     <div class="panel-body">
-                        <form class="form-horizontal" role="form" method="GET" action="{{ url('/jump') }}">
-                            <div class="form-group">
-                                <label class="col-md-4 control-label">Url</label>
-
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control" name="url" value="{{ old('url') }}">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-6 col-md-offset-4">
-                                    <button type="submit" class="btn btn-primary">
-                                        <i class="fa fa-btn fa-sign-in"></i>Jump!
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
+                        {!! Form::open(array('route' => 'service.jump.index', 'method' => 'get', 'class' => 'form-horizontal')) !!}
+                        {{ Form::component('bsText', 'components.form.text', ['name', 'value' => null, 'attributes' => []]) }}
+                        {{ Form::bsText('url') }}
+                        {{ Form::bsText('script') }}
+                        {{ Form::bsText('killjs') }}
+                        {{ Form::bsText('nocache') }}
+                        {{ Form::component('bsSubmit', 'components.form.submit', ['name', 'value' => null, 'attributes' => []]) }}
+                        {{ Form::bsSubmit('Jump!') }}
+                        {!! Form::close() !!}
                     </div>
                 </div>
             </div>

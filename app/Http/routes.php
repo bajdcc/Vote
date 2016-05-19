@@ -10,16 +10,3 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-
-//Route::get('/', 'HomeController@index');
-
-Route::get('/jump', 'JumpController@index');
-
-Route::get('/', array('as' => 'home', function()
-{
-    return View::make('home');
-}));
-
-//TODO: /vote/...
-
-\App\Http\Controllers\VoteController::registerRoute();

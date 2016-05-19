@@ -5,6 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 
+/**
+ * Class HomeController
+ * @Common
+ * @Controller(prefix="/")
+ * @package App\Http\Controllers
+ */
 class HomeController extends Controller
 {
     /**
@@ -19,11 +25,11 @@ class HomeController extends Controller
 
     /**
      * Show the application dashboard.
-     *
+     * @Get("/", as="home")
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        return view('welcome');
+        return view('home');
     }
 }

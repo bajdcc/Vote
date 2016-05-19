@@ -7,11 +7,12 @@ use Sunra\PhpSimple\HtmlDomParser;
 
 class JumpWatcher
 {
-    static private $pass_ext = array(
-    );
+    static private $pass_ext = array();
+    static private $cache_prefix = 'Jump:url:';
     private $currentTime = 0.0;
     private $args = array();
     private $query = '';
+    private $uri_part = array();
 
     /**
      * Handle an incoming request.
@@ -29,6 +30,13 @@ class JumpWatcher
             $url = urldecode($query['url']);
             if (!starts_with($url, startsWith('http'))) {
                 $url = 'http://' . $url;
+            }
+            if (!isset($query['nocache']) || empty($query['nocache'])) {
+                $redis = \Redis::connection('default');
+                $redis_key = self::$cache_prefix . $url;
+                if ($redis->exists($redis_key)) {
+                    return base64_decode($redis->get($redis_key));
+                }
             }
             $code = $this->preAnalysis($url);
             switch ($code) {
@@ -57,9 +65,10 @@ class JumpWatcher
      * @param $url
      * @return int
      */
-    private function preAnalysis($url) {
-        $uri_part = parse_url($url);
-        if ($uri_part == FALSE)
+    private function preAnalysis($url)
+    {
+        $this->uri_part = parse_url($url);
+        if ($this->uri_part == FALSE)
             return 0;
         unset($this->args['url']);
         $query = http_build_query($this->args);
@@ -92,6 +101,7 @@ class JumpWatcher
 
         $options = array(
             CURLOPT_HEADER => 0,
+            CURLOPT_REFERER => $this->uri_part['host'],
             CURLOPT_URL => $url,
             CURLOPT_RETURNTRANSFER => 1,
             CURLOPT_TIMEOUT => 30,
@@ -126,9 +136,18 @@ class JumpWatcher
                 }
             }
         }
-        foreach ($html->find('script') as $element) {
-            if (isset($element->src)) {
+        foreach ($html->find('img') as $element) {
+            if (isset($element->src) && !starts_with($element->src, '#')) {
                 $element->src = $this->transUrl($element->src, $url, $https, false);
+            }
+        }
+        foreach ($html->find('script') as $element) {
+            if (isset($this->args['killjs']) && !empty($this->args['killjs'])) {
+                $element->src = '//cdn.bajdcc.com/services/injection/null.js';
+            } else {
+                if (isset($element->src)) {
+                    $element->src = $this->transUrl($element->src, $url, $https, false);
+                }
             }
         }
         //foreach ($html->find('img') as $element) {
@@ -137,12 +156,24 @@ class JumpWatcher
         foreach ($html->find('title') as $element) {
             $element->innertext = $element->innertext . ' -- HOOKED! by bajdcc';
         }
-        $inject = '';
-        $inject .= '<script>injected_time_bajdcc=';
-        $inject .= ($this->microtime_float() - $this->currentTime);
-        $inject .= '</script>';
-        $inject .= '<script src="//cdn.bajdcc.com/services/injection/inject.js"></script>';
-        $html->find('body', 0)->innertext = $html->find('body', 0)->innertext . $inject;
+
+        if ($html->find('body', 0)) {
+            $inject = '';
+            $inject .= '<script>injected_time_bajdcc=';
+            $inject .= ($this->microtime_float() - $this->currentTime);
+            $inject .= '</script>';
+            $inject .= '<script src="//cdn.bajdcc.com/services/injection/inject.js"></script>';
+            if (isset($this->args['script']) && !empty($this->args['script'])) {
+                $inject .= "<script src='//cdn.bajdcc.com/services/injection/www/{$this->args['script']}.js''></script>";
+            }
+            $html->find('body', 0)->innertext = $html->find('body', 0)->innertext . $inject;
+        }
+        if (!isset($query['nocache']) || empty($query['nocache'])) {
+            $redis = \Redis::connection('default');
+            $redis_key = self::$cache_prefix . $url;
+            $redis->setex($redis_key, 300, base64_encode($html));
+        }
+
         return $html;
     }
 
@@ -156,10 +187,10 @@ class JumpWatcher
         //if ($code == "CP936") {
         //    $result = $str;
         //} else {
-            //$result = mb_convert_encoding($str, 'UTF-8', $code);//将编码$code转换为utf-8编码
-            //$result = iconv($code, "UTF-8", $str);
+        //$result = mb_convert_encoding($str, 'UTF-8', $code);//将编码$code转换为utf-8编码
+        //$result = iconv($code, "UTF-8", $str);
         //}
-        return mb_convert_encoding($str, 'UTF-8', 'GBK,UTF-8,ASCII');
+        return mb_convert_encoding($str, 'UTF-8', 'ASCII,UTF-8,GBK');
     }
 
     /**

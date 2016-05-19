@@ -155,10 +155,16 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\AnnotationsServiceProvider::class,
 
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         Sentinel\SentinelServiceProvider::class,
         BrainSocket\BrainSocketServiceProvider::class,
+
+        Collective\Html\HtmlServiceProvider::class,
+        Collective\Bus\BusServiceProvider::class,
+        Collective\IronQueue\IronQueueServiceProvider::class,
+        Collective\Remote\RemoteServiceProvider::class,
     ],
 
     /*
@@ -204,7 +210,12 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+
         'WebSocket' => BrainSocket\BrainSocketFacade::class,
+
+        'Form' => Collective\Html\FormFacade::class,
+        'Html' => Collective\Html\HtmlFacade::class,
+        'SSH' => Collective\Remote\RemoteFacade::class,
     ],
 
 ];

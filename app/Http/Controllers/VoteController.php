@@ -6,6 +6,13 @@ use App\Http\Requests\VotePostRequest;
 
 use App\Http\Requests;
 
+/**
+ * Class VoteController
+ * @Vote
+ * @Middleware("vote")
+ * @Controller(prefix="/vote", as="service.vote")
+ * @package App\Http\Controllers
+ */
 class VoteController extends Controller
 {
     static private $vote_key = 'vote.question';
@@ -34,20 +41,8 @@ class VoteController extends Controller
     }
 
     /**
-     * Register route
-     */
-    static public function registerRoute()
-    {
-        \Route::get('/vote', 'VoteController@index');
-        \Route::get('/vote/broadcast', 'VoteController@broadcast');
-        \Route::get('/vote/query', 'VoteController@query')->name('vote_query');
-        \Route::get('/vote/query_init', 'VoteController@query_init')->name('vote_query_init');
-        \Route::post('/vote/post', 'VoteController@post')->name('vote_post');
-    }
-
-    /**
      * Show the application dashboard.
-     *
+     * @Get("/", as="service.vote.index")
      * @return \Illuminate\Http\Response
      */
     public function index()
@@ -57,7 +52,7 @@ class VoteController extends Controller
 
     /**
      * Broadcast messages.
-     *
+     * @Get("/broadcase", as="service.vote.broadcast")
      * @return \Illuminate\Http\Response
      */
     public function broadcast()
@@ -69,10 +64,10 @@ class VoteController extends Controller
     }
 
     /**
- * Vote query data of json
- *
- * @return \Illuminate\Http\JsonResponse
- */
+     * Vote query data of json
+     * @Get("/query", as="service.vote.query")
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function query()
     {
         $redis = \Redis::connection('default');
@@ -83,7 +78,7 @@ class VoteController extends Controller
 
     /**
      * Vote query data of json, init
-     *
+     * @Get("/query_init", as="service.vote.query_init")
      * @return \Illuminate\Http\JsonResponse
      */
     public function query_init()
@@ -97,7 +92,7 @@ class VoteController extends Controller
 
     /**
      * Post data
-     *
+     * @Post("/post", as="service.vote.post")
      * @param Requests\VotePostRequest $request
      * @return \Illuminate\Http\JsonResponse
      */

@@ -4,6 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 
+/**
+ * Class JumpController
+ * @Middleware("jump")
+ * @Controller(prefix="/jump", as="service.jump")
+ * @package App\Http\Controllers
+ */
 class JumpController extends Controller
 {
     /**
@@ -18,7 +24,7 @@ class JumpController extends Controller
 
     /**
      * Show the application dashboard.
-     *
+     * @Get("/", as="service.jump.index")
      * @return \Illuminate\Http\Response
      */
     public function index()

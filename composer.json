@@ -14,7 +14,14 @@
     "sunra/php-simple-html-dom-parser": "^1.5",
     "rydurham/sentinel": "^2.3",
     "brainboxlabs/brain-socket": "^1.0",
-    "predis/predis": "^1.0"
+    "predis/predis": "^1.0",
+    "laravelcollective/remote": "^5.2",
+    "laravelcollective/html": "^5.2",
+    "laravelcollective/annotations": "^5.2",
+    "laravelcollective/bus": "^5.2",
+    "laravelcollective/iron-queue": "^5.2",
+    "illuminate/redis": "^5.2",
+    "nesbot/carbon": "^1.21"
   },
   "require-dev": {
     "fzaninotto/faker": "~1.4",
