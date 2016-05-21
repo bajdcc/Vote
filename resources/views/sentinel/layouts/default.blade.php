@@ -16,35 +16,35 @@
     <nav class="red lighten-1" role="navigation">
         <div class="container">
             <div class="nav-wrapper">
-                <a id="logo-container" href="{{ route('home') }}" class="brand-logo">Service</a>
+                {{ link_to_route('home', $title = 'Service', $parameters = array(), $attributes = array('class' => 'brand-logo', 'id' => 'logo-container' )) }}
                 <ul class="right hide-on-med-and-down">
                     @if (Sentry::check() && Sentry::getUser()->hasAccess('admin'))
-                        <li {!! (Request::is('users*') ? 'class="active"' : '') !!}><a href="{{ route('sentinel.users.index') }}" class="waves-effect">{{ trans('pages.users') }}</a></li>
-                        <li {!! (Request::is('groups*') ? 'class="active"' : '') !!}><a href="{{ route('sentinel.groups.index') }}" class="waves-effect">{{ trans('pages.groups') }}</a></li>
+                        <li {!! (Request::is('users*') ? 'class="active"' : '') !!}>{{ link_to_route('sentinel.users.index', $title = trans('pages.users'), $parameters = array(), $attributes = array('class' => 'waves-effect' )) }}</li>
+                        <li {!! (Request::is('groups*') ? 'class="active"' : '') !!}>{{ link_to_route('sentinel.groups.index', $title = trans('pages.groups'), $parameters = array(), $attributes = array('class' => 'waves-effect' )) }}</li>
                     @endif
                     @if (Sentry::check())
                         <li {!! (Request::is('profile') ? 'class="active"' : '') !!}>
-                            <a href="{{ route('sentinel.profile.show') }}">{{ Sentry::getUser()->username }}</a>
+                            {{ link_to_route('sentinel.profile.show', $title = Sentry::getUser()->username) }}
                         </li>
                         <li><a href="{{ route('sentinel.logout') }}">{{ trans('pages.logout') }}</a></li>
                     @else
-                        <li {!! (Request::is('login') ? 'class="active"' : '') !!}><a href="{{ route('sentinel.login') }}" class="waves-effect">{{ trans('pages.login') }}</a></li>
-                        <li {!! (Request::is('register') ? 'class="active"' : '') !!}><a href="{{ route('sentinel.register.form') }}" class="waves-effect">{{ trans('pages.register') }}</a></li>
+                        <li {!! (Request::is('login') ? 'class="active"' : '') !!}>{{ link_to_route('sentinel.login', $title = trans('pages.login'), $parameters = array(), $attributes = array('class' => 'waves-effect' )) }}</li>
+                        <li {!! (Request::is('register') ? 'class="active"' : '') !!}>{{ link_to_route('sentinel.register.form', $title = trans('pages.register'), $parameters = array(), $attributes = array('class' => 'waves-effect' )) }}</li>
                     @endif
                 </ul>
                 <ul id="nav-mobile" class="side-nav">
                     @if (Sentry::check() && Sentry::getUser()->hasAccess('admin'))
-                        <li {!! (Request::is('users*') ? 'class="active"' : '') !!}><a href="{{ route('sentinel.users.index') }}">{{ trans('pages.users') }}</a></li>
-                        <li {!! (Request::is('groups*') ? 'class="active"' : '') !!}><a href="{{ route('sentinel.groups.index') }}">{{ trans('pages.groups') }}</a></li>
+                        <li {!! (Request::is('users*') ? 'class="active"' : '') !!}>{{ link_to_route('sentinel.users.index', $title = trans('pages.users'), $parameters = array(), $attributes = array('class' => 'waves-effect' )) }}</li>
+                        <li {!! (Request::is('groups*') ? 'class="active"' : '') !!}>{{ link_to_route('sentinel.groups.index', $title = trans('pages.groups'), $parameters = array(), $attributes = array('class' => 'waves-effect' )) }}</li>
                     @endif
                     @if (Sentry::check())
                         <li {!! (Request::is('profile') ? 'class="active"' : '') !!}>
-                            <a href="{{ route('sentinel.profile.show') }}">{{ Sentry::getUser()->username }}</a>
+                            {{ link_to_route('sentinel.profile.show', $title = Sentry::getUser()->username) }}
                         </li>
                         <li><a href="{{ route('sentinel.logout') }}">{{ trans('pages.logout') }}</a></li>
                     @else
-                        <li {!! (Request::is('login') ? 'class="active"' : '') !!}><a href="{{ route('sentinel.login') }}">{{ trans('pages.login') }}</a></li>
-                        <li {!! (Request::is('register') ? 'class="active"' : '') !!}><a href="{{ route('sentinel.register.form') }}">{{ trans('pages.register') }}</a></li>
+                        <li {!! (Request::is('login') ? 'class="active"' : '') !!}>{{ link_to_route('sentinel.login', $title = trans('pages.login'), $parameters = array(), $attributes = array('class' => 'waves-effect' )) }}</li>
+                        <li {!! (Request::is('register') ? 'class="active"' : '') !!}>{{ link_to_route('sentinel.register.form', $title = trans('pages.register'), $parameters = array(), $attributes = array('class' => 'waves-effect' )) }}</li>
                     @endif
                 </ul>
                 <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
@@ -72,9 +72,10 @@
                 <div class="col l4 offset-l2 s12">
                     <h5 class="white-text">Services</h5>
                     <ul>
-                        <li><a class="grey-text text-lighten-3" href="/jump">Jump</a></li>
-                        <li><a class="grey-text text-lighten-3" href="/vote">Vote</a></li>
-                        <li><a class="grey-text text-lighten-3" href="#">...</a></li>
+                        <li>{{ link_to_route('service.jump.index', $title = 'Jump', $parameters = array(), $attributes = array('class' => 'grey-text text-lighten-3' )) }}</li>
+                        <li>{{ link_to_route('service.vote.index', $title = 'Vote', $parameters = array(), $attributes = array('class' => 'grey-text text-lighten-3' )) }}</li>
+                        <li>{{ link_to_route('service.link.index', $title = 'Link', $parameters = array(), $attributes = array('class' => 'grey-text text-lighten-3' )) }}</li>
+                        <li>{{ link_to('#', $title = '...',$attributes = array('class' => 'grey-text text-lighten-3' )) }}</li>
                     </ul>
                 </div>
             </div>

@@ -6,8 +6,8 @@ use App\Http\Requests;
 
 /**
  * Class JumpController
- * @Middleware("jump")
  * @Controller(prefix="/jump", as="service.jump")
+ * @Middleware("jump")
  * @package App\Http\Controllers
  */
 class JumpController extends Controller
@@ -19,7 +19,7 @@ class JumpController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('jump');
+        //
     }
 
     /**
