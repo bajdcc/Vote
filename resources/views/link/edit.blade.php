@@ -22,38 +22,18 @@
 
     <div class="row">
         <div class="col l6 offset-l3 m8 offset-m2 s12">
-            <form method="POST" action="{{ route('service.link.update', array('id' => $link->id)) }}"
-                  accept-charset="UTF-8" role="form">
-                <input name="_method" value="PUT" type="hidden">
-                <input name="_token" value="{{ csrf_token() }}" type="hidden">
-
-                <h4>Link</h4>
-
-                <div class="row">
-                    <div class="input-field col s12">
-                        <input id="name" name="name" type="text" class="validate"
-                               value="{{ $link->name }}">
-                        <label for="name">Name</label>
-                        {{ ($errors->has('name') ? $errors->first('name') : '') }}
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="input-field col s12">
-                        <input id="url" name="url" type="url" class="validate" value="{{ $link->url }}">
-                        <label for="url">Url</label>
-                        {{ ($errors->has('url') ? $errors->first('url') : '') }}
-                    </div>
-                </div>
-
-                <p>
-                    <button class="btn waves-effect waves-light red" type="submit" name="action">Save Changes
-                        <i class="mdi-content-send right"></i>
-                    </button>
-                </p>
-
-            </form>
+            {!! Form::open(array('route' => array('service.link.update', 'id' => $link->id),
+             'method' => 'post', 'class' => 'form-horizontal', 'accept-charset' => 'UTF-8')) !!}
+            {!! Form::Token() !!}
+            <h4>Link</h4>
+            {{ Form::component('mText', 'components.materials-form.text', ['name', 'value' => null, 'attributes' => []]) }}
+            {{ Form::mText('name', $link->name) }}
+            {{ Form::component('mUrl', 'components.materials-form.url', ['name', 'value' => null, 'attributes' => []]) }}
+            {{ Form::mUrl('url', $link->url) }}
+            {{ Form::component('mSubmit', 'components.materials-form.submit', ['name', 'value' => null, 'attributes' => []]) }}
+            {{ Form::mSubmit('Save Changes') }}
+            {!! Form::close() !!}
         </div>
-    <div>
+    </div>
 
 @stop

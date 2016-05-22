@@ -25,10 +25,23 @@
             <h4>Details</h4>
 
             <div class="divider"></div>
-            <p><strong>Name:</strong> {{ $link->name }} </p>
-
-            <p><strong>Url:</strong> {{ $link->url }}</p>
-
+            <br/>
+            <div class="row">
+                <div class="col s2">
+                    <strong>Name</strong>
+                </div>
+                <div class="col s10">
+                    <em>{{ str_limit($link->name, 60) }}</em>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s2">
+                    <strong>Url</strong>
+                </div>
+                <div class="col s10">
+                    <em>{{ link_to($link->url, str_limit($link->url, 60), array('target' => '_blank')) }}</em>
+                </div>
+            </div>
             <div class="row">
                 <div class="col s8">
                     <p>
@@ -38,6 +51,7 @@
                     </p>
                 </div>
                 <div class="col s4">
+                    <br/>
                     <form method="POST" action="{{ route('service.link.destroy', array('id' => $link->id)) }}"
                           accept-charset="UTF-8" role="form">
                         <input name="_method" value="DELETE" type="hidden">
